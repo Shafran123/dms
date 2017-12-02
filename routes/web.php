@@ -16,10 +16,18 @@ Auth::routes();
 Route::get('/', 'ContentController@publicHome')->name('home');
 Route::middleware('auth')->group(function(){
 
-    Route::get('/user/home', 'ContentController@userHome')->name('user_home');
+    Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function()
+    {
+        Route::get('/admin/home', 'ContentController@adminHome')->name('admin_home');
+    });
+
+    Route::group(['middleware' => 'App\Http\Middleware\UserMiddleware'], function()
+    {
+        Route::get('/user/home', 'ContentController@userHome')->name('user_home');
+    });
+
     Route::get('/add/post', 'IncidentController@index')->name('add_post_index');
     Route::post('/add/post', 'IncidentController@addPost')->name('add_post');
-    Route::get('/admin/home', 'ContentController@adminHome')->name('admin_home');
 });
 
 Route::get('new/post', 'IncidentController@addPost');
