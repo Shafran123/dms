@@ -45,6 +45,29 @@ class ContentController extends Controller
         return view('admin.home', $data);
     }
 
+    public function contactIndex()
+    {
+        $data['title'] = 'Contact';
+        $data['contact'] = 1;
+        switch (session('type'))
+        {
+            case 'admin':
+                $data['username'] = $this->getUsername();
+                $data['type'] = $this->getUserType();
+                $data['template'] = 'templates.admin_template';
+                break;
+            case 'user':
+                $data['username'] = $this->getUsername();
+                $data['type'] = $this->getUserType();
+                $data['template'] = 'templates.user_template';
+                break;
+            default:
+                $data['template'] = 'templates.public_template';
+                break;
+        }
+        return view('public.contact', $data);
+    }
+
     public function getUsername(){
         return session('username');
     }

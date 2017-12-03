@@ -10,36 +10,27 @@
 
 namespace App\Http\Controllers;
 use App\Incident;
+use Illuminate\Support\Facades\Auth;
 
 class PostController
 {
 
-    public function __construct(Incident $incident)
+    public function userIndex()
     {
-        $this->incident = $incident;
+        $data['title'] = 'My Posts';
+        $data['myPosts'] = 1;
+        $data['username'] = Auth::user()->username;
+        $data['type'] = Auth::user()->type;
+        return view('user.my_posts', $data);
     }
 
-    public function userAddPost()
+    public function adminIndex()
     {
-        $data = [];
-        $data['username'] = session('username');
-        $data['title'] = 'Add Post';
-        return view('user.add_post', $data);
-    }
-
-    public function addPost()
-    {
-        $incident = new Incident();
-        $incident->insert(
-            [
-                'type' => 'Accident',
-                'date' => '2017-11-27',
-                'description' => 'It was an Accident',
-                'latitude' => 6.870039,
-                'longitude' => 79.879729,
-                'city' => 'Kohuwala'
-            ]
-        );
+        $data['title'] = 'Pending Posts';
+        $data['pendingPosts'] = 1;
+        $data['username'] = Auth::user()->username;
+        $data['type'] = Auth::user()->type;
+        return view('admin.users', $data);
     }
 
 }
