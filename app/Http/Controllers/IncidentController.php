@@ -12,6 +12,7 @@ use App\Picture;
 use App\Type;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
 class IncidentController
@@ -26,7 +27,22 @@ class IncidentController
     public function index()
     {
         $data = [];
-        $data['username'] = session('username');
+        switch (session('type'))
+        {
+            case 'admin':
+                $data['username'] = Auth::user()->username;
+                $data['type'] = Auth::user()->type;
+                $data['template'] = 'templates.admin_template';
+                break;
+            case 'user':
+                $data['username'] = Auth::user()->username;
+                $data['type'] = Auth::user()->type;
+                $data['template'] = 'templates.user_template';
+                break;
+            default:
+                $data['template'] = 'templates.public_template';
+                break;
+        }
         $data['title'] = 'Add Post';
         $data['types'] = $this->types;
         return view('add_post', $data);
@@ -39,7 +55,7 @@ class IncidentController
             $request->validate(
                 [
                     'title' => 'required|min:5',
-                    'date' => 'required',
+                    'date' => 'required|before:today',
                     'description' => 'required|min:100|max:3500',
                     'pac-input' => 'required',
                 ]

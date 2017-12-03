@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <script src="{{ asset("https://use.fontawesome.com/cd29093529.js") }}"></script>
-    <title>Home</title>
+    <title>{{ isset($title) ? $title : 'Unset Title' }}</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
