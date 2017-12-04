@@ -29,6 +29,11 @@
                         @endif
                         <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
                     </div>
+
+                @elseif($type == 'user' && $post['user_id'] == session('id'))
+                    <div class="d-inline-block float-right">
+                        <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
+                    </div>
                 @endif
                 {{--<p>--}}
                     {{--Posted on January 1, 2017 at 12:00 PM--}}

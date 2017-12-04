@@ -54,7 +54,7 @@
                         <label for="images">Upload images (if any)</label>
                         <input type="file" class="form-control-file {{ $errors->has('images') ? ' is-invalid' : '' }}" id="images" name="images[]" value="{{ old('images') }}" accept=".jpg, .png" multiple>
                         <div class="invalid-feedback">
-                            {{ $errors->first('images') }}
+                            {{--{{ $errors->first('images') }}--}}
                         </div>
                     </div>
                     <div class="form-group">

@@ -326,7 +326,9 @@ class IncidentController
 
     public function deletePost($id)
     {
-        dd($id);
+        $incident = $this->incident;
+        $incident->find($id)->delete();
+        return redirect()->route('my_posts');
     }
 
 

@@ -2,10 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Incident;
 use Illuminate\Http\Request;
 
 class ContentController extends Controller
 {
+    protected $incident;
+
+    public function __construct(Incident $incident)
+    {
+        $this->incident = $incident->where('status', 'approved')->get();
+    }
+
     public function publicHome(Request $request){
         $data = [];
         $data['home'] = 1;
@@ -18,6 +26,8 @@ class ContentController extends Controller
                     return redirect()->route('user_home');
             }
         }
+        $data['posts'] = $this->populatePosts();
+
         return view('public.home', $data);
     }
 
@@ -30,6 +40,7 @@ class ContentController extends Controller
         if(session()->has('status')){
             $data['status'] = session()->pull('status');
         }
+        $data['posts'] = $this->populatePosts();
         return view('user.home', $data);
     }
 
@@ -39,6 +50,9 @@ class ContentController extends Controller
         $data['type'] = $this->getUserType();
         $data['home'] = 1;
         $data['title'] = 'Home';
+        $data['posts'] = $this->populatePosts();
+
+//        dd();
         if(session()->has('status')){
             $data['status'] = session()->pull('status');
         }
@@ -66,6 +80,14 @@ class ContentController extends Controller
                 break;
         }
         return view('public.contact', $data);
+    }
+
+    public function populatePosts()
+    {
+        if(count($this->incident) > 0)
+            return $this->incident->toArray();
+
+        return null;
     }
 
     public function getUsername(){

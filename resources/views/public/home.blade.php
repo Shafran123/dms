@@ -13,18 +13,21 @@
                 </h1>
 
                 <!-- Blog Post -->
-                <div class="card mb-4">
-                    <img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">
-                    <div class="card-body">
-                        <h2 class="card-title">Post Title</h2>
-                        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-                        <a href="#" class="btn btn-primary">Read More <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
-                    </div>
-                    <div class="card-footer text-muted">
-                        Posted on January 1, 2017 by
-                        <a href="#">Start Bootstrap {{ isset($id) ? $id : "Nothing" }}</a>
-                    </div>
-                </div>
+                @if(isset($posts))
+                    @foreach($posts as $post)
+                        <div class="card mb-4">
+                            {{--<img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">--}}
+                            <div class="card-body">
+                                <h2 class="card-title">{{ $post['title'] }}</h2>
+                                <p class="card-text">{{ str_limit($post['description'], 200) }}</p>
+                                <a href="{{ route('view_post', ['id' => $post['id'] ]) }}" class="btn btn-primary">Read More <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="card-footer text-muted">
+                                Posted on {{ $post['created_at'] }} by Start Bootstrap
+                            </div>
+                        </div>
+                @endforeach
+            @endif
 
                 <!-- Blog Post -->
                 <div class="card mb-4">
