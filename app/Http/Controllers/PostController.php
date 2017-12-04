@@ -10,6 +10,7 @@
 
 namespace App\Http\Controllers;
 use App\Incident;
+use App\Picture;
 use App\Type;
 use App\User;
 use Illuminate\Http\Request;
@@ -18,13 +19,14 @@ use Illuminate\Support\Facades\Auth;
 class PostController
 {
 
-    protected $incident, $user, $type;
+    protected $incident, $user, $type, $picture;
 
-    function __construct(Incident $incident, User $user, Type $type)
+    function __construct(Incident $incident, User $user, Type $type, Picture $picture)
     {
         $this->incident = $incident;
-        $this->user= $user;
-        $this->type= $type;
+        $this->user = $user;
+        $this->type = $type;
+        $this->picture = $picture;
     }
 
     public function userIndex()
@@ -44,6 +46,7 @@ class PostController
         $data['username'] = Auth::user()->username;
         $data['type'] = Auth::user()->type;
         $pending_incidents = $this->incident->get()->where('status', 'pending');
+        $data['postCount'] = count($pending_incidents);
         $posts = $pending_incidents->toArray();
 
         foreach ($posts as $post)
@@ -55,7 +58,6 @@ class PostController
             $i++;
         }
 
-        $data['postCount'] = count($data['posts']);
 //        print_r($data['postCount']);
         return view('admin.pending_posts', $data);
     }
@@ -89,7 +91,12 @@ class PostController
         {
             $data['no_post'] = 1;
         }
+        $data['pictures'] = $this->getPictures($id);
 
+        if(count($data['pictures']) == 0)
+            $data['pictures'] = null; //no pictures
+        else
+            $data['firstPic'] = 0;
         return view('post', $data);
     }
 
@@ -137,6 +144,29 @@ class PostController
             $incident->save();
             return redirect()->route('pending_posts');
 //            dd($incident->toArray());
+        }
+    }
+
+    public function approvePost($id)
+    {
+        $incident = $this->incident->find($id);
+        $incident->status = 'approved';
+        $incident->save();
+        return redirect()->route('pending_posts');
+    }
+
+    public function getPictures($id)
+    {
+//        dd($this->picture->where('incident_id', $id)->get()->toArray());
+        $post = $this->incident->find($id);
+        $pictures = $post->picture()->where('incident_id', $id)->get();
+        if(count($pictures) > 0)
+        {
+            return ($pictures->toArray());
+        }
+        else
+        {
+            return [];
         }
     }
 

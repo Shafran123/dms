@@ -19,7 +19,7 @@ class CreatePicturesTable extends Migration
             $table->string('filename');
             $table->string('mime');
             $table->string('original_filename');
-            $table->foreign('incident_id')->references('id')->on('incidents');
+            $table->foreign('incident_id')->references('id')->on('incidents')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

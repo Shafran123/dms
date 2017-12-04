@@ -22,7 +22,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/user', 'UserController@index')->name('users');//show site users
         Route::get('/pending/posts', 'PostController@adminIndex')->name('pending_posts');//show pending posts
         Route::get('/edit/post/{id}', 'PostController@edit')->name('edit_post_form');//show edit post form
-        Route::post('/edit/post/{id}', 'PostController@editPost')->name('edit_post');//edit post
+        Route::post('/edit/post/{id}', 'PostController@editPost')->name('edit_post');//edit post and approve post
+        Route::get('/approve/post/{id}', 'PostController@approvePost')->name('approve_post');//approve post w/o editing
     });
 
     Route::group(['middleware' => 'App\Http\Middleware\UserMiddleware'], function()

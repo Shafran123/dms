@@ -23,7 +23,7 @@ class CreateIncidentsTable extends Migration
             $table->double('longitude', 20, 10);
             $table->string('city');
             $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();

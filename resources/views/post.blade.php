@@ -23,7 +23,7 @@
                 <div class="d-inline-block">Posted on {{ isset($post['created_at']) ? $post['created_at'] : "site error" }}</div>
                 @if($type == 'admin')
                     <div class="d-inline-block float-right">
-                        <a href="#" class="btn btn-success btn-sm" role="button" aria-pressed="true">Approve</a>
+                        <a href="{{ route('approve_post', ['id' => $post['id']]) }}" class="btn btn-success btn-sm" role="button" aria-pressed="true">Approve</a>
                         <a href="{{ route('edit_post_form', [ 'id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
                         <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
                     </div>
@@ -37,15 +37,19 @@
 
                 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img class="d-block w-100" src="{{ asset("images/download.svg") }}" alt="First slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{ asset("images/download.svg") }}" alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                            <img class="d-block w-100" src="{{ asset("images/download.svg") }}" alt="Third slide">
-                        </div>
+                        @if(isset($pictures))
+                            @foreach($pictures as $picture)
+                                @if(++$firstPic == 1)
+                                    <div class="carousel-item active">
+                                        <img class="d-block w-100" src="{{ asset("images/".$picture['original_filename']) }}" alt="First slide">
+                                    </div>
+                                @else
+                                    <div class="carousel-item">
+                                        <img class="d-block w-100" src="{{ asset("images/".$picture['original_filename']) }}" alt="First slide">
+                                    </div>
+                                @endif
+                            @endforeach
+                        @endif
                     </div>
                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -59,9 +63,10 @@
 
                 <hr>
 
+                <div style="margin-bottom: 50px;">
                 <!-- Post Content -->
-                {{ isset($post['description']) ? $post['description'] : "site error" }}
-
+                    {{ isset($post['description']) ? $post['description'] : "site error" }}
+                </div>
                 <hr>
 
             </div>

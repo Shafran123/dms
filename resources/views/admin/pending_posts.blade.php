@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <h1>Pending Posts</h1>
             </div>
-            @if($postCount > 0)
+
                 <table class="table table-hover" style="margin-top: 15px">
                     <thead>
                         <tr>
@@ -21,21 +21,26 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($posts as $post)
-                        <tr>
-                            <th scope="row">{{ $post['id'] }}</th>
-                            <td>{{ $post['title'] }}</td>
-                            <td>{{ $post['type'] }}</td>
-                            <td>{{ $post['username'] }}</td>
-                            <td style="text-align: center;">
-                                <a href="{{ route('view_post', ['id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Read</a>
-                                <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
-                            </td>
+                    @if($postCount > 0)
+                        @foreach($posts as $post)
+                            <tr>
+                                <th scope="row">{{ $post['id'] }}</th>
+                                <td>{{ $post['title'] }}</td>
+                                <td>{{ $post['type'] }}</td>
+                                <td>{{ $post['username'] }}</td>
+                                <td style="text-align: center;">
+                                    <a href="{{ route('view_post', ['id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Read</a>
+                                    <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr style="text-align: center;">
+                            <td colspan="5"> <strong>No Posts are Pending approval!</strong> </td>
                         </tr>
-                    @endforeach
+                    @endif
                     </tbody>
                 </table>
-            @endif
         </div>
         <!-- /.row -->
 
