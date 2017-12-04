@@ -38,6 +38,9 @@
                 <li class="nav-item {{ isset($pendingPosts) ? "active" : "" }}">
                     <a class="nav-link" href="{{ route('pending_posts') }}">Pending Posts</a>
                 </li>
+                <li class="nav-item {{ isset($myPosts) ? "active" : "" }}">
+                    <a class="nav-link" href="{{ route('my_posts') }}">My posts</a>
+                </li>
                 <li class="nav-item {{ isset($contact) ? "active" : "" }}">
                     <a class="nav-link" href="{{ route("contact") }}">Contact</a>
                 </li>

@@ -29,14 +29,18 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="date">Incident Type</label>
+                        <label for="type">Incident Type</label>
                         <select class="form-control {{ $errors->has('type') ? ' is-invalid' : '' }}" id="type" name="type">
                             @foreach($types as $type => $icon)
-                                <option value="{{ $type }}">{{ $type }}</option>
+                                @if($type == old('type'))
+                                    <option value="{{ $type }}" selected>{{ $type }}</option>
+                                @else
+                                    <option value="{{ $type }}">{{ $type }}</option>
+                                @endif
                             @endforeach
                         </select>
                         <div class="invalid-feedback">
-                            {{ $errors->first('date') }}
+{{--                            {{ $errors->first('type') }}--}}
                         </div>
                     </div>
                     <div class="form-group">
@@ -54,6 +58,21 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="province">Select Province</label>
+                        <select class="form-control {{ $errors->has('province') ? ' is-invalid' : '' }}" id="province" name="province">
+                            @foreach($provinces as $province)
+                                @if($province == old('$province'))
+                                    <option value="{{ $province }}" selected>{{ $province }}</option>
+                                @else
+                                    <option value="{{ $province }}">{{ $province }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback">
+                            {{--{{ $errors->first('province') }}--}}
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label for="pac-input">Please type in a location</label>
                         <input type="text" class="form-control {{ $errors->has('pac-input') ? ' is-invalid' : '' }}" id="pac-input" name="pac-input" placeholder="Location" value="{{ old('pac-input') }}" required>
                         <div class="invalid-feedback">
@@ -66,11 +85,11 @@
                     </div>
                     <div class="d-inline-block">
                         <label for="lat">Latitude</label>
-                        <input type="text" name="lat" id="lat" class="form-control" readonly>
+                        <input type="text" name="lat" id="lat" class="form-control" value="{{ old('lat') }}" readonly>
                     </div>
                     <div class="d-inline-block">
                         <label for="lng" style="margin-top: 10px;">Longitude</label>
-                        <input type="text" name="lng" id="lng" class="form-control" readonly>
+                        <input type="text" name="lng" id="lng" class="form-control" value="{{ old('lng') }}" readonly>
                     </div>
                     <div class="form-group col-6 col-md-4">
 
@@ -106,8 +125,8 @@
                 draggable: true
             });
 
-            document.getElementById('lat').value = marker.getPosition().lat();
-            document.getElementById('lng').value = marker.getPosition().lng();
+//            document.getElementById('lat').value = marker.getPosition().lat();
+//            document.getElementById('lng').value = marker.getPosition().lng();
 
             var input = document.getElementById('pac-input');
 

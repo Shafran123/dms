@@ -30,7 +30,7 @@
                                 <td>{{ $post['username'] }}</td>
                                 <td style="text-align: center;">
                                     <a href="{{ route('view_post', ['id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Read</a>
-                                    <a href="#" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
+                                    <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
                                 </td>
                             </tr>
                         @endforeach

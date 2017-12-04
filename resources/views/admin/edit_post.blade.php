@@ -1,4 +1,4 @@
-@extends('templates.admin_template')
+@extends($template)
 
 @section('content')
 
@@ -83,9 +83,49 @@
                             {{ $errors->first('description') }}
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="images">Add More Pictures (if needed)</label>
+                        <input type="file" class="form-control-file {{ $errors->has('images') ? ' is-invalid' : '' }}" id="images" name="images[]" value="{{ old('images') }}" accept=".jpg, .png" multiple>
+                        <div class="invalid-feedback">
+                            {{ $errors->first('images') }}
+                        </div>
+                    </div>
+
+
                     <div class="form-group">
                         <a href="#" class="btn btn-primary btn-lg" target="_blank" role="button" aria-pressed="true">Edit Pictures</a>
                     </div>
+
+
+                    <div class="form-group">
+                        <label for="province">Select Province</label>
+                        <select class="form-control {{ $errors->has('province') ? ' is-invalid' : '' }}" id="province" name="province">
+                            @foreach($provinces as $province)
+
+                                @if($errors->has('title') || $errors->has('date') || $errors->has('type') || $errors->has('description') || $errors->has('pac-input'))
+                                    @if( $province == old('province') )
+                                        <option value="{{ $province }}" selected>{{ $province }}</option>
+                                    @else
+                                        <option value="{{ $province }}">{{ $province }}</option>
+                                    @endif
+
+                                @else
+                                    @if($province == $post['province'])
+                                        <option value="{{ $province }}" selected>{{ $province }}</option>
+                                    @else
+                                        <option value="{{ $province }}">{{ $province }}</option>
+                                    @endif
+                                @endif
+
+                            @endforeach
+                        </select>
+                        <div class="invalid-feedback">
+                            {{--{{ $errors->first('province') }}--}}
+                        </div>
+                    </div>
+
+
                     <div class="form-group">
                         <label for="pac-input">Please type in a location</label>
 
@@ -125,6 +165,7 @@
                     </div>
                     <div class="form-group col-6 col-md-4">
 
+                    <input type="hidden" value="{{ $post['user_id'] }}" name="user_id" id="user_id">
 
                     </div>
                     <div class="form-group">
