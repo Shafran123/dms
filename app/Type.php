@@ -8,13 +8,25 @@ class Type extends Model
 {
     protected $type = [
         'Thunderstorm' => 'http://maps.google.com/mapfiles/kml/shapes/thunderstorm.png',
-        'Flood' => 'http://maps.google.com/mapfiles/kml/shapes/water.png',
-        'Landslide' => 'http://maps.google.com/mapfiles/kml/shapes/falling_rocks.png',
-        'Other' => 'http://maps.google.com/mapfiles/kml/shapes/caution.png',
+        'Flood' => 'http://maps.google.com/mapfiles/kml/pal3/icon45.png',
+        'Landslide' => 'http://maps.google.com/mapfiles/kml/pal3/icon45.png',
+        'Fire' => 'http://maps.google.com/mapfiles/kml/shapes/firedept.png',
+        'Other' => 'http://maps.google.com/mapfiles/kml/pal3/icon45.png',
     ];
 
     public function getTypes()
     {
         return $this->type;
+    }
+
+    public function getImage($type)
+    {
+        $types = $this->type;
+        foreach ($types as $key => $value)
+        {
+            if($key == $type)
+                return $value;
+        }
+        return null;
     }
 }

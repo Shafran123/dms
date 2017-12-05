@@ -66,7 +66,7 @@ class IncidentController
                     [
                         'title' => 'required|min:5',
                         'date' => 'required|before:today',
-                        'description' => 'required|min:100|max:3500',
+                        'description' => 'required|min:100|max:10000',
                         'threat_level' => 'required|numeric|min:1|max:10'
                     ]
                 );
@@ -77,7 +77,7 @@ class IncidentController
                     [
                         'title' => 'required|min:5',
                         'date' => 'required|before:today',
-                        'description' => 'required|min:100|max:3500',
+                        'description' => 'required|min:100|max:10000',
                     ]
                 );
             }
@@ -188,13 +188,28 @@ class IncidentController
     {
         if($request->isMethod('post'))
         {
-            $request->validate(
-                [
-                    'title' => 'required|min:5',
-                    'date' => 'required|before:today',
-                    'description' => 'required|min:100|max:3500',
-                ]
-            );
+            if(session('type') == 'admin')
+            {
+                $request->validate(
+                    [
+                        'title' => 'required|min:5',
+                        'date' => 'required|before:today',
+                        'description' => 'required|min:100|max:10000',
+                        'threat_level' => 'required|numeric|min:1|max:10'
+                    ]
+                );
+            }
+            else
+            {
+                $request->validate(
+                    [
+                        'title' => 'required|min:5',
+                        'date' => 'required|before:today',
+                        'description' => 'required|min:100|max:10000',
+                    ]
+                );
+            }
+
             $incident = $this->incident->find($id);
             $user_instance = new User();
             $incident->title = $request['title'];

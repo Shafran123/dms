@@ -53,7 +53,7 @@
                     @if($user_type == 'admin')
                         <div class="form-group">
                             <label for="threat_level">Assign Threat Level</label>
-                            <input type="number" name="threat_level" id="threat_level" value="1" class="form-control col-sm-3" min="1" max="10" required>
+                            <input type="number" name="threat_level" id="threat_level" value="{{ old('threat_level') | "1" }}" class="form-control col-sm-3" min="1" max="10" required>
                             <div class="invalid-feedback">
                                 {{ $errors->first('threat_level') }}
                             </div>

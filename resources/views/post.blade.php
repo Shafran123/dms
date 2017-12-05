@@ -80,27 +80,44 @@
 
                 <div style="margin-bottom: 50px;">
                 <!-- Post Content -->
-                    {{ isset($post['description']) ? $post['description'] : "site error" }}
+{{--                    {{ isset($post['description']) ? nl2br(e($post['description'])) : "site error" }}--}}
+                    {{--{!! nl2br(e($post['description']))!!}--}}
+                    {!! isset($post['description']) ? nl2br(e($post['description'])) : "site error" !!}
                 </div>
+
+
+
+                <div class="form-group">
+                    <div id="map" style="height: 500px; width: 100%;"></div>
+                </div>
+
+
+
+
+
                 <hr>
 
             </div>
-
-            <!-- Sidebar Widgets Column -->
-            {{--<div class="col-md-4">--}}
-
-                {{--<!-- Side Widget -->--}}
-                {{--<div class="card my-4">--}}
-                    {{--<h5 class="card-header">Side Widget</h5>--}}
-                    {{--<div class="card-body">--}}
-                        {{--You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-
-            {{--</div>--}}
 
         </div>
         <!-- /.row -->
 
     </div>
+    <script>
+        var map;
+        function initAutocomplete(){
+            console.log(document.getElementById('map'));
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: new google.maps.LatLng({{ $post['latitude'].','. $post['longitude']}} ),
+                zoom: 15
+            });
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng({{ $post['latitude'].','. $post['longitude']}} ),
+                map: map,
+                draggable: false
+            });
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRTORue7jdYHni5zzlQEZdayfmxLA5alc&libraries=places&callback=initAutocomplete"
+            async defer></script>
 @endsection

@@ -18,7 +18,7 @@ class CreateIncidentsTable extends Migration
             $table->string('title');
             $table->date('date');
             $table->string('type');
-            $table->string('description', 3500);
+            $table->string('description', 10000);
             $table->double('latitude', 20, 10);
             $table->double('longitude', 20, 10);
             $table->string('city');
