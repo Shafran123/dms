@@ -18,7 +18,12 @@
                         <div class="card mb-4">
                             {{--<img class="card-img-top" src="http://placehold.it/750x300" alt="Card image cap">--}}
                             <div class="card-body">
-                                <h2 class="card-title">{{ $post['title'] }}</h2>
+                                <div class="d-inline-block">
+                                    <h2 class="card-title">{{ $post['title'] }}</h2>
+                                </div>
+                                <div class="d-inline-block float-right">
+                                    <span class="badge badge-warning">Threat Level: {{ $post['threat_level'] }}</span>
+                                </div>
                                 <p class="card-text">{{ str_limit($post['description'], 200) }}</p>
                                 <a href="{{ route('view_post', ['id' => $post['id'] ]) }}" class="btn btn-primary">Read More <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                             </div>

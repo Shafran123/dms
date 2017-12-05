@@ -45,26 +45,36 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description" rows="5" required>{{ old('description') }}</textarea>
+                        <textarea class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description" rows="10" required>{{ old('description') }}</textarea>
                         <div class="invalid-feedback">
                             {{ $errors->first('description') }}
                         </div>
                     </div>
+                    @if($user_type == 'admin')
+                        <div class="form-group">
+                            <label for="threat_level">Assign Threat Level</label>
+                            <input type="number" name="threat_level" id="threat_level" value="1" class="form-control col-sm-3" min="1" max="10" required>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('threat_level') }}
+                            </div>
+                        </div>
+                    @endif
                     <div class="form-group">
                         <label for="images">Upload images (if any)</label>
-                        <input type="file" class="form-control-file {{ $errors->has('images') ? ' is-invalid' : '' }}" id="images" name="images[]" value="{{ old('images') }}" accept=".jpg, .png" multiple>
+                        <input type="file" class="form-control-file {{ $errors->has('images') ? ' is-invalid' : '' }}" id="images" name="images[]" accept=".jpg, .png" multiple>
                         <div class="invalid-feedback">
-                            {{--{{ $errors->first('images') }}--}}
+                            {{ $errors->first('images') }}
                         </div>
                     </div>
+
                     <div class="form-group">
-                        <label for="province">Select Province</label>
-                        <select class="form-control {{ $errors->has('province') ? ' is-invalid' : '' }}" id="province" name="province">
-                            @foreach($provinces as $province)
-                                @if($province == old('$province'))
-                                    <option value="{{ $province }}" selected>{{ $province }}</option>
+                        <label for="city">Select City/Town</label>
+                        <select class="form-control {{ $errors->has('city') ? ' is-invalid' : '' }}" id="city" name="city">
+                            @foreach($cities as $city)
+                                @if($city == old('city'))
+                                    <option value="{{ $city }}" selected>{{ $city }}</option>
                                 @else
-                                    <option value="{{ $province }}">{{ $province }}</option>
+                                    <option value="{{ $city }}">{{ $city }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -74,7 +84,7 @@
                     </div>
                     <div class="form-group">
                         <label for="pac-input">Please type in a location</label>
-                        <input type="text" class="form-control {{ $errors->has('pac-input') ? ' is-invalid' : '' }}" id="pac-input" name="pac-input" placeholder="Location" value="{{ old('pac-input') }}" required>
+                        <input type="text" class="form-control {{ $errors->has('pac-input') ? ' is-invalid' : '' }}" id="pac-input" name="pac-input" placeholder="Location" value="{{ old('pac-input') }}">
                         <div class="invalid-feedback">
                             {{ $errors->first('pac-input') }}
                         </div>

@@ -21,16 +21,16 @@
 
                 <!-- Date/Time -->
                 <div class="d-inline-block">Posted on {{ isset($post['created_at']) ? $post['created_at'] : "site error" }}</div>
-                @if($type == 'admin')
+                @if(isset($user_type) && $user_type == 'admin')
                     <div class="d-inline-block float-right">
                         @if($post['status'] == 'pending')
                             <a href="{{ route('approve_post', ['id' => $post['id']]) }}" class="btn btn-success btn-sm" role="button" aria-pressed="true">Approve</a>
-                            <a href="{{ route('edit_post_form', [ 'id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
                         @endif
-                        <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
+                            <a href="{{ route('edit_post_form', [ 'id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
+                            <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
                     </div>
 
-                @elseif($type == 'user' && $post['user_id'] == session('id'))
+                @elseif(isset($user_type) && $user_type == 'user' && $post['user_id'] == session('id'))
                     <div class="d-inline-block float-right">
                         <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
                     </div>

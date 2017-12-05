@@ -84,9 +84,19 @@
                         </div>
                     </div>
 
+                    @if($user_type == 'admin')
+                        <div class="form-group">
+                            <label for="threat_level">Assign Threat Level</label>
+                            <input type="number" name="threat_level" id="threat_level" value="1" class="form-control col-sm-3" min="1" max="10" required>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('threat_level') }}
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="form-group">
                         <label for="images">Add More Pictures (if needed)</label>
-                        <input type="file" class="form-control-file {{ $errors->has('images') ? ' is-invalid' : '' }}" id="images" name="images[]" value="{{ old('images') }}" accept=".jpg, .png" multiple>
+                        <input type="file" class="form-control-file {{ $errors->has('images') ? ' is-invalid' : '' }}" id="images" name="images[]" accept=".jpg, .png" multiple>
                         <div class="invalid-feedback">
                             {{ $errors->first('images') }}
                         </div>
@@ -99,22 +109,22 @@
 
 
                     <div class="form-group">
-                        <label for="province">Select Province</label>
-                        <select class="form-control {{ $errors->has('province') ? ' is-invalid' : '' }}" id="province" name="province">
-                            @foreach($provinces as $province)
+                        <label for="city">Select City/Town</label>
+                        <select class="form-control {{ $errors->has('city') ? ' is-invalid' : '' }}" id="city" name="city">
+                            @foreach($cities as $city)
 
-                                @if($errors->has('title') || $errors->has('date') || $errors->has('type') || $errors->has('description') || $errors->has('pac-input'))
-                                    @if( $province == old('province') )
-                                        <option value="{{ $province }}" selected>{{ $province }}</option>
+                                @if($errors->has('title') || $errors->has('date') || $errors->has('type') || $errors->has('description'))
+                                    @if( $city == old('city') )
+                                        <option value="{{ $city }}" selected>{{ $city }}</option>
                                     @else
-                                        <option value="{{ $province }}">{{ $province }}</option>
+                                        <option value="{{ $city }}">{{ $city }}</option>
                                     @endif
 
                                 @else
-                                    @if($province == $post['province'])
-                                        <option value="{{ $province }}" selected>{{ $province }}</option>
+                                    @if($city == $post['city'])
+                                        <option value="{{ $city }}" selected>{{ $city }}</option>
                                     @else
-                                        <option value="{{ $province }}">{{ $province }}</option>
+                                        <option value="{{ $city }}">{{ $city }}</option>
                                     @endif
                                 @endif
 

@@ -7,6 +7,7 @@
  */
 
 namespace App\Http\Controllers;
+use App\City;
 use App\Incident;
 use App\Picture;
 use App\Province;
@@ -18,15 +19,15 @@ use Illuminate\Support\Facades\Input;
 
 class IncidentController
 {
-    protected $incident, $user, $types, $picture, $provinces;
+    protected $incident, $user, $types, $picture, $cities;
 
-    function __construct(Incident $incident, User $user, Type $type, Picture $picture, Province $provinces)
+    function __construct(Incident $incident, User $user, Type $type, Picture $picture, City $cities)
     {
         $this->incident = $incident;
         $this->user = $user;
         $this->types = $type;
         $this->picture = $picture;
-        $this->provinces = $provinces;
+        $this->cities = $cities;
     }
 
 
@@ -37,12 +38,12 @@ class IncidentController
         {
             case 'admin':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.admin_template';
                 break;
             case 'user':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.user_template';
                 break;
             default:
@@ -51,7 +52,7 @@ class IncidentController
         }
         $data['title'] = 'Add Post';
         $data['types'] = $this->types->getTypes();
-        $data['provinces'] = $this->provinces->getProvinces();
+        $data['cities'] = $this->cities->getCities();
         return view('add_post', $data);
     }//show add post form
 
@@ -59,14 +60,27 @@ class IncidentController
     {
         if($request->isMethod('post'))
         {
-            $request->validate(
-                [
-                    'title' => 'required|min:5',
-                    'date' => 'required|before:today',
-                    'description' => 'required|min:100|max:3500',
-                    'pac-input' => 'required',
-                ]
-            );
+            if(session('type') == 'admin')
+            {
+                $request->validate(
+                    [
+                        'title' => 'required|min:5',
+                        'date' => 'required|before:today',
+                        'description' => 'required|min:100|max:3500',
+                        'threat_level' => 'required|numeric|min:1|max:10'
+                    ]
+                );
+            }
+            else
+            {
+                $request->validate(
+                    [
+                        'title' => 'required|min:5',
+                        'date' => 'required|before:today',
+                        'description' => 'required|min:100|max:3500',
+                    ]
+                );
+            }
             $incident = new Incident();
             $user_instance = new User();
             $user = $user_instance->find(session('id'));
@@ -76,9 +90,10 @@ class IncidentController
             $incident->description = $request['description'];
             $incident->latitude = $request['lat'];
             $incident->longitude = $request['lng'];
-            $incident->city = $request['pac-input'];
-            $incident->province = $request['province'];
+            $incident->city = $request['city'];
+            $incident->district = $this->getDistrict($request['city']);
             $incident->status = session('type') == 'admin' ? 'approved' : 'pending';
+            $incident->threat_level = isset($request['threat_level'])  ? $request['threat_level'] : null;
             $incident->user()->associate($user);
             $files = $request->file('images');
             $incident->save();
@@ -137,7 +152,7 @@ class IncidentController
     {
         $data = [];
         $data['types'] = $this->types->getTypes();
-        $data['provinces'] = $this->provinces->getProvinces();
+        $data['cities'] = $this->cities->getCities();
         $data['title'] = 'Edit Post';
 //        $data['username'] = Auth::user()->username;
 //        $data['type'] = Auth::user()->type;
@@ -145,12 +160,12 @@ class IncidentController
         {
             case 'admin':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.admin_template';
                 break;
             case 'user':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.user_template';
                 break;
             default:
@@ -161,9 +176,9 @@ class IncidentController
         if($data['post'] != null)
         {
             $data['post'] = $data['post']->toArray();
-            if($data['post']['status'] == 'pending')
                 return view('admin.edit_post', $data);
-            dd('error: post already approved'); //post already approved
+//            if($data['post']['status'] == 'pending')
+//            dd('error: post already approved'); //post already approved
         }
         dd('error: no post like that');
 
@@ -178,7 +193,6 @@ class IncidentController
                     'title' => 'required|min:5',
                     'date' => 'required|before:today',
                     'description' => 'required|min:100|max:3500',
-                    'pac-input' => 'required',
                 ]
             );
             $incident = $this->incident->find($id);
@@ -189,8 +203,9 @@ class IncidentController
             $incident->description = $request['description'];
             $incident->latitude = $request['lat'];
             $incident->longitude = $request['lng'];
-            $incident->city = $request['pac-input'];
-            $incident->province = $request['province'];
+            $incident->city = $request['city'];
+            $incident->threat_level = isset($request['threat_level'])  ? $request['threat_level'] : null;
+            $incident->district = $this->getDistrict($request['city']);
             if(session('type') == 'admin')
                 $incident->status = 'approved';
             else
@@ -229,6 +244,25 @@ class IncidentController
     }//edit post
 
 
+    public function getDistrict($city)
+    {
+        switch ($city)
+        {
+            case 'Negombo':
+                return 'Gampaha';
+                break;
+            case 'Gampaha':
+                return 'Gampaha';
+                break;
+            case 'Kalutara':
+                return 'Kalutara';
+                break;
+            default:
+                return 'Colombo';
+                break;
+        }
+    }
+
 
     public function viewPost($id)
     {
@@ -237,12 +271,12 @@ class IncidentController
         {
             case 'admin':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.admin_template';
                 break;
             case 'user':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.user_template';
                 break;
             default:
@@ -294,12 +328,12 @@ class IncidentController
         {
             case 'admin':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.admin_template';
                 break;
             case 'user':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.user_template';
                 break;
             default:

@@ -22,7 +22,8 @@ class CreateIncidentsTable extends Migration
             $table->double('latitude', 20, 10);
             $table->double('longitude', 20, 10);
             $table->string('city');
-            $table->string('province');
+            $table->string('district');
+            $table->integer('threat_level')->nullable();
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('status');
