@@ -45,11 +45,12 @@ Route::middleware('auth')->group(function(){
 //common routes
 Route::get('/contact', 'ContentController@contactIndex')->name('contact');//show contact page
 Route::get('/view/map', 'MapController@index')->name('view_map');//show view map page
-Route::get('/view/graph', 'GraphController@index')->name('view_graph');//show view graph page
 Route::get('/post/{id}', 'IncidentController@viewPost')->name('view_post');//view a post
 
-Route::post('filter/posts', 'GraphController@filterPosts')->name('filter_posts');
+Route::get('/view/graph', 'GraphController@index')->name('view_graph');//show view graph page
+Route::post('/view/graph', 'GraphController@filterPosts')->name('filter_posts');
 Route::get('filter/{district}', 'GraphController@sortByDistrict')->name('sort_district');
+Route::get('filter/{district}/{start_date}/{end_date}', 'GraphController@sortByDistrictAndDates')->name('sort_district');
 
 
 //Route::get('new/post', 'IncidentController@addPost');

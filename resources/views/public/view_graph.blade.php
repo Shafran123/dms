@@ -46,7 +46,7 @@
 
                 // Set chart options
                 var options = {
-    //                'title': 'How Much Pizza I Ate Last Night',
+                    'title': '{{ isset($startDate) && isset($endDate) ? 'Incidents between '.$startDate .' and '.$endDate : '' }}',
                     'width': '100%',
                     'height': 400,
                     'chartArea': {'width': '100%', 'height': '80%'},
@@ -61,7 +61,11 @@
                     var selectedItem = chart.getSelection()[0];
                     if (selectedItem) {
                         var district = data.getValue(selectedItem.row, 0);
-                        window.location = "/filter/" + district;
+                        @if(isset($startDate) && isset($endDate))
+                            window.location = "/filter/" + district + "/{{ $startDate }}/{{ $endDate }}";
+                        @else
+                            window.location = "/filter/" + district;
+                        @endif
 
 
     //                    window.open('localhost:8000/filter/' + topping, '_blank');
@@ -171,6 +175,8 @@
                         </tbody>
                     </table>
                 </div>
+                @elseif(isset($errorMessage))
+                    <div style="color: red;"> {{ $errorMessage }}</div>
                 @endif
 
 
@@ -181,6 +187,7 @@
 
     </div>
     <script>
+//        window.onload = myFunction();
         function myFunction(){
 //            document.getElementById('startDate').readOnly = false;
 //            console.log(document.getElementById('startDate').disabled);

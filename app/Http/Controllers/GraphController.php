@@ -65,6 +65,8 @@ class GraphController extends Controller
                 break;
         }
 
+        $incidents_array = [];
+
         if($request->radioButton == 'overall')
         {
             $incidents_array = $this->incident->select(DB::raw('district, status, count(*) as number_of_incidents'))
@@ -72,20 +74,6 @@ class GraphController extends Controller
                                                 ->groupBy('district')
 //                                                ->having('status', 'approved')
                                                 ->get();
-            if(count($incidents_array) > 0)
-            {
-                $incidents = [];
-                $i = 0;
-                foreach ($incidents_array as $incident)
-                {
-                    $incidents[$i]['district'] = ucfirst($incident['district']);
-                    $incidents[$i]['number_of_incidents'] = $incident['number_of_incidents'];
-                    $i++;
-                }
-                $data['incidents'] = $incidents;
-//                dd($incidents);
-                return view('public.view_graph', $data);
-            }
         }
         else
         {
@@ -93,14 +81,52 @@ class GraphController extends Controller
             {
                 $request->validate(
                     [
-                        'startDate' => 'required|before:endDate',
-                        'endDate' => 'required|after:startDate',
+                        'startDate' => 'required|before:endDate|before:today',
+                        'endDate' => 'required|after:startDate|before:today',
                     ]
                 );
+                $incidents_array = $this->incident->select(DB::raw('district, status, count(*) as number_of_incidents'))
+                    ->where('status','approved')
+                    ->where('date', '>', $request->startDate)
+                    ->where('date', '<', $request->endDate)
+                    ->groupBy('district')
+                    ->get();
+                $data['startDate'] = $request->startDate;
+                $data['endDate'] = $request->endDate;
+            }
+        }
+
+        if(count($incidents_array) > 0)
+        {
+            $data['incidents'] = $this->getIncidents($incidents_array);
+        }
+        else
+        {
+            if(isset($request->startDate) && isset($request->endDate))
+            {
+                $data['errorMessage'] = "There does not seem to be any reports from incidents between ".
+                    $request->startDate . ' and ' . $request->endDate;
+            }
+            else
+            {
+                $data['errorMessage'] = "There does not seem to be any reports in the system right now";
             }
         }
 
         return view('public.view_graph', $data);
+    }
+
+    public function getIncidents($incidents_array)
+    {
+        $incidents = [];
+        $i = 0;
+        foreach ($incidents_array as $incident)
+        {
+            $incidents[$i]['district'] = ucfirst($incident['district']);
+            $incidents[$i]['number_of_incidents'] = $incident['number_of_incidents'];
+            $i++;
+        }
+        return $incidents;
     }
 
     public function sortByDistrict($district)
@@ -186,6 +212,13 @@ class GraphController extends Controller
         }
 //        dd($data);
         return view('public.district', $data);
+    }
+
+    public function sortByDistrictAndDates($district, $start_date, $end_date)
+    {
+        var_dump($district);
+        var_dump($start_date);
+        var_dump($end_date);
     }
 
     public function getIncidentByCityAndType($city, $type)
