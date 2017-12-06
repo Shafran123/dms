@@ -27,12 +27,12 @@ class MapController extends Controller
         {
             case 'admin':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.admin_template';
                 break;
             case 'user':
                 $data['username'] = Auth::user()->username;
-                $data['type'] = Auth::user()->type;
+                $data['user_type'] = Auth::user()->type;
                 $data['template'] = 'templates.user_template';
                 break;
             default:

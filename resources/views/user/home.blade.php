@@ -28,7 +28,7 @@
                                 <a href="{{ route('view_post', ['id' => $post['id'] ]) }}" class="btn btn-primary float-right">Read More <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                             </div>
                             <div class="card-footer text-muted">
-                                Posted on {{ $post['created_at'] }} by Start Bootstrap
+                                Posted on {{ date("d M Y", strtotime($post['created_at'])) }} by Start Bootstrap
                             </div>
                         </div>
                     @endforeach

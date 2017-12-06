@@ -48,6 +48,8 @@ Route::get('/view/map', 'MapController@index')->name('view_map');//show view map
 Route::get('/view/graph', 'GraphController@index')->name('view_graph');//show view graph page
 Route::get('/post/{id}', 'IncidentController@viewPost')->name('view_post');//view a post
 
+Route::post('filter/posts', 'GraphController@filterPosts')->name('filter_posts');
+
 
 //Route::get('new/post', 'IncidentController@addPost');
 

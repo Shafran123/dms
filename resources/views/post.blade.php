@@ -20,7 +20,7 @@
                 <hr>
 
                 <!-- Date/Time -->
-                <div class="d-inline-block">Posted on {{ isset($post['created_at']) ? $post['created_at'] : "site error" }}</div>
+                <div class="d-inline-block">Posted on {{ isset($post['created_at']) ? date("d M Y", strtotime($post['created_at'])) : "site error" }}</div>
                 @if(isset($user_type) && $user_type == 'admin')
                     <div class="d-inline-block float-right">
                         @if($post['status'] == 'pending')

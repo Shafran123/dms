@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Type extends Model
 {
     protected $type = [
-        'Thunderstorm' => 'http://maps.google.com/mapfiles/kml/shapes/thunderstorm.png',
-        'Flood' => 'http://maps.google.com/mapfiles/kml/pal3/icon45.png',
-        'Landslide' => 'http://maps.google.com/mapfiles/kml/pal3/icon45.png',
-        'Fire' => 'http://maps.google.com/mapfiles/kml/shapes/firedept.png',
-        'Other' => 'http://maps.google.com/mapfiles/kml/pal3/icon45.png',
+        'Thunderstorm' => 'https://image.ibb.co/bEmuQG/thunderstorm.png',
+        'Flood' => 'https://image.ibb.co/hW5okG/water.png',
+        'Landslide' => 'https://image.ibb.co/k05ceb/falling_rocks.png',
+        'Fire' => 'https://image.ibb.co/hoxqzb/firedept.png',
+        'Other' => 'https://image.ibb.co/cKeQXw/icon33.png',
     ];
 
     public function getTypes()

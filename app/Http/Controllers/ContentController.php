@@ -11,7 +11,7 @@ class ContentController extends Controller
 
     public function __construct(Incident $incident)
     {
-        $this->incident = $incident->where('status', 'approved')->get();
+        $this->incident = $incident->where('status', 'approved')->orderBy('created_at', 'desc')->get();
     }
 
     public function publicHome(Request $request){
