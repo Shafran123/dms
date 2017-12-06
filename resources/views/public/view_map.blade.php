@@ -40,11 +40,11 @@
             console.log(document.getElementById('map'));
             map = new google.maps.Map(document.getElementById('map'), {
                 center: {
-                    lat: 7.800650,
-                    lng: 80.706366
+                    lat: 6.8291561,
+                    lng: 79.8179159
                 },
                 draggable: true,
-                zoom: 8
+                zoom: 10
             });
 
             function getMap()
