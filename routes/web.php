@@ -49,6 +49,7 @@ Route::get('/view/graph', 'GraphController@index')->name('view_graph');//show vi
 Route::get('/post/{id}', 'IncidentController@viewPost')->name('view_post');//view a post
 
 Route::post('filter/posts', 'GraphController@filterPosts')->name('filter_posts');
+Route::get('filter/{topping}', 'GraphController@sortByDistrict')->name('sort_district');
 
 
 //Route::get('new/post', 'IncidentController@addPost');

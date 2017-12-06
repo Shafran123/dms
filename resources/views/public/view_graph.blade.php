@@ -12,45 +12,70 @@
     <script type="text/javascript" src="{{ asset('https://www.gstatic.com/charts/loader.js') }}"></script>
     <script type="text/javascript">
 
-        // Load the Visualization API and the corechart package.
-        google.charts.load('current', {'packages':['corechart']});
+        @if(isset($incidents))
+            // Load the Visualization API and the corechart package.
+            google.charts.load('current', {'packages':['corechart']});
 
-        // Set a callback to run when the Google Visualization API is loaded.
-        @if(isset($paras))
-            google.charts.setOnLoadCallback(drawChart);
-        @endif
+            // Set a callback to run when the Google Visualization API is loaded.
+                google.charts.setOnLoadCallback(drawChart);
 
-        // Callback that creates and populates a data table,
-        // instantiates the pie chart, passes in the data and
-        // draws it.
-        function drawChart() {
+            // Callback that creates and populates a data table,
+            // instantiates the pie chart, passes in the data and
+            // draws it.
+            function drawChart() {
 
-            // Create the data table.
-            var data = new google.visualization.DataTable();
-            data.addColumn('string', 'Topping');
-            data.addColumn('number', 'Slices');
-            data.addRows([
-                ['Mushrooms', 3],
-                ['Onions', 1],
-                ['Olives', 1],
-                ['Zucchini', 1],
-                ['Pepperoni', 2]
-            ]);
+                // Create the data table.
+                var data = new google.visualization.DataTable();
+                var chartData = [];
+                @foreach($incidents as $incident)
+                    var districtName = '{{ $incident['district'] }}';
+                    var numberOfIncidents = parseInt('{{ $incident['number_of_incidents'] }}');
+                    chartData.push([districtName, numberOfIncidents]);
+                @endforeach
+                console.log(chartData);
+                data.addColumn('string', 'District');
+                data.addColumn('number', 'Number of Incidents');
+//                data.addRows([
+//                    ['Mushrooms', 3],
+//                    ['Onions', 1],
+//                    ['Olives', 1],
+//                    ['Zucchini', 1],
+//                    ['Pepperoni', 2]
+//                ]);
+                data.addRows(chartData);
 
-            // Set chart options
-            var options = {
-//                'title': 'How Much Pizza I Ate Last Night',
-                'width': '100%',
-                'height': 400,
-                'chartArea': {'width': '100%', 'height': '80%'},
-                'legend': {'position': 'bottom'}
-            };
+                // Set chart options
+                var options = {
+    //                'title': 'How Much Pizza I Ate Last Night',
+                    'width': '100%',
+                    'height': 400,
+                    'chartArea': {'width': '100%', 'height': '80%'},
+                    'legend': {'position': 'bottom'}
+                };
 
 
-            // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-            chart.draw(data, options);
-        }
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+                function selectHandler() {
+                    var selectedItem = chart.getSelection()[0];
+                    if (selectedItem) {
+                        var district = data.getValue(selectedItem.row, 0);
+                        window.location = "/filter/" + district;
+
+
+    //                    window.open('localhost:8000/filter/' + topping, '_blank');
+    //                    window.location = 'localhost:8000/filter/' + topping;
+
+    //                    alert('The user selected ' + topping);
+                    }
+                }
+
+                google.visualization.events.addListener(chart, 'select', selectHandler);
+
+                chart.draw(data, options);
+            }
+         @endif
 
 
     </script>
@@ -128,7 +153,7 @@
                     {{--</div>--}}
                 </form>
 
-                @if(isset($paras))
+                @if(isset($incidents))
                 <div>
                     <div style="width: 100%;">
                         <div id="chart_div"></div>
