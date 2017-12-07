@@ -45,8 +45,8 @@
 
                 var options = {
                     chart: {
-                        title: 'Incidents in {{ isset($district) ? $district : 'Not set' }}'
-//                        subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                        title: 'Incidents in {{ isset($district) ? $district : 'Not set' }}',
+                        subtitle: '{{ isset($subtitle)  ? $subtitle : '' }}'
                     },
                     colors: ['#795548', '#9e9e9e', '#2196f3', '#f44336', '#9c27b0']
                 };
@@ -71,16 +71,28 @@
                         <div style="width: 100%;">
                             <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
                         </div>
-                        <table>
+                        <table class="table table-bordered" style="margin-top: 20px;">
                             <thead>
-                            <th>GDGD</th>
-                            <th>GDGD</th>
+                            <tr>
+                                <th scope="col">City</th>
+                                <th scope="col">Number of Landslides</th>
+                                <th scope="col">Number of Thunderstorms</th>
+                                <th scope="col">Number of Floods</th>
+                                <th scope="col">Number of Fires</th>
+                                <th scope="col">Number of Other</th>
+                            </tr>
                             </thead>
                             <tbody>
-                            <tr>
-                                <td>DGD</td>
-                                <td>DGD</td>
-                            </tr>
+                            @foreach($cities as $city => $incident)
+                                <tr>
+                                    <th scope="row">{{ $city }}</th>
+                                    <td>{{ $incident['Landslide'] ? $incident['Landslide'] : 0}}</td>
+                                    <td>{{ $incident['Thunderstorm'] ? $incident['Thunderstorm'] : 0}}</td>
+                                    <td>{{ $incident['Flood'] ? $incident['Flood'] : 0}}</td>
+                                    <td>{{ $incident['Fire'] ? $incident['Fire'] : 0}}</td>
+                                    <td>{{ $incident['Other'] ? $incident['Other'] : 0}}</td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

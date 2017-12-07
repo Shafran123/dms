@@ -88,7 +88,7 @@
         <div class="row" style=" height: 100%;">
 
             <!-- Blog Entries Column -->
-            <div class="col-md-12" style="border: 1px solid red;  height: 100%;">
+            <div class="col-md-12" style="border: 0px solid red;  height: 100%;">
                 <h1>View Graphs</h1>
 
                 <form action="{{ route('filter_posts') }}" method="POST">
@@ -162,16 +162,22 @@
                     <div style="width: 100%;">
                         <div id="chart_div"></div>
                     </div>
-                    <table>
+                    <table class="table table-bordered" style="margin-top: 50px; margin-bottom: 90px;">
                         <thead>
-                        <th>GDGD</th>
-                        <th>GDGD</th>
+                        <tr>
+                            <th scope="col">District</th>
+                            <th scope="col">Number of Incidents</th>
+                        </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>DGD</td>
-                            <td>DGD</td>
-                        </tr>
+
+                        @foreach($incidents as $incident)
+                            <tr>
+                                <th scope="row">{{ $incident['district'] }}</th>
+                                <td>{{ $incident['number_of_incidents'] }}</td>
+                            </tr>
+                        @endforeach
+
                         </tbody>
                     </table>
                 </div>
