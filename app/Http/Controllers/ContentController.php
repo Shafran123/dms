@@ -11,7 +11,7 @@ class ContentController extends Controller
 
     public function __construct(Incident $incident)
     {
-        $this->incident = $incident->where('status', 'approved')->orderBy('created_at', 'desc')->get();
+        $this->incident = $incident->where('status', 'approved')->orderBy('created_at', 'desc')->simplePaginate(10);
     }
 
     public function publicHome(Request $request){
@@ -27,6 +27,8 @@ class ContentController extends Controller
             }
         }
         $data['posts'] = $this->populatePosts();
+
+//        dd($data['posts']->previousPageUrl());
 
         return view('public.home', $data);
     }
@@ -85,7 +87,9 @@ class ContentController extends Controller
     public function populatePosts()
     {
         if(count($this->incident) > 0)
-            return $this->incident->toArray();
+        {
+            return $this->incident;
+        }
 
         return null;
     }

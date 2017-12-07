@@ -11,13 +11,13 @@ $factory->define(App\Incident::class, function (Faker $faker) {
         'title' => $faker->sentence(),
         'date' => $faker->dateTimeThisYear('now', $timezone = null),
         'type' => $type[rand(0,4)],
-        'description' => $faker->paragraph(8, false),
+        'description' => $faker->paragraph(20, false),
         'latitude' => $faker->latitude(6.443911, 7.271265),
         'longitude' => $faker->longitude(79.877616, 80.344532),
         'city' => $cities[rand(0,6)],
         'district' => $district[rand(0,2)],
-        'threat_level' => null,
+        'threat_level' => rand(1,10),
         'user_id' => $users[rand(0,4)],
-        'status' => 'pending',
+        'status' => 'approved',
     ];
 });

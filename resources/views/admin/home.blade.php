@@ -73,7 +73,10 @@
                         {{--<a class="page-link" href="#">Newer &rarr;</a>--}}
                     {{--</li>--}}
                 {{--</ul>--}}
-
+                {{ $posts->links('paginator', [
+                    'nextPageUrl' => $posts->nextPageUrl(),
+                    'previousPageUrl' => $posts->previousPageUrl(),
+                ]) }}
             </div>
 
             <!-- Sidebar Widgets Column -->
