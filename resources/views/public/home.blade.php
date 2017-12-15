@@ -6,7 +6,7 @@
         <div class="row">
 
             <!-- Blog Entries Column -->
-            <div class="col-md-8">
+            <div class="col-lg-12">
 
                 <h1 class="my-4">Posts
                     {{--<small>Secondary Text</small>--}}

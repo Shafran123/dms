@@ -12,34 +12,16 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="{{ route('admin_home') }}">DMS <small> | Admin Panel : {{ $username  }}</small></a>
+        <a class="navbar-brand" href="{{ route('admin_home') }}">DMS <small> | Super User : {{ $username  }}</small></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item {{ isset($home) ? "active" : "" }}">
-                    <a class="nav-link" href="{{ route('admin_home') }}">Home
+                <li class="nav-item {{ isset($users) ? "active" : "" }}">
+                    <a class="nav-link" href="{{ route('users') }}">Users
                         <span class="sr-only">(current)</span>
                     </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        View
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item {{ isset($onMap) ? "active" : "" }}" href="{{ route('view_map') }}">On map</a>
-                        <a class="dropdown-item {{ isset($onGraph) ? "active" : "" }}" href="{{ route('view_graph') }}">On graph</a>
-                    </div>
-                </li>
-                <li class="nav-item {{ isset($pendingPosts) ? "active" : "" }}">
-                    <a class="nav-link" href="{{ route('pending_posts') }}">Pending Posts</a>
-                </li>
-                <li class="nav-item {{ isset($myPosts) ? "active" : "" }}">
-                    <a class="nav-link" href="{{ route('my_posts') }}">My posts</a>
-                </li>
-                <li class="nav-item {{ isset($contact) ? "active" : "" }}">
-                    <a class="nav-link" href="{{ route("contact") }}">Contact</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('logout') }}"
@@ -52,6 +34,29 @@
                         {{ csrf_field() }}
                     </form>
                 </li>
+                {{--<li class="nav-item {{ isset($home) ? "active" : "" }}">--}}
+                    {{--<a class="nav-link" href="{{ route('admin_home') }}">Home--}}
+                        {{--<span class="sr-only">(current)</span>--}}
+                    {{--</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item dropdown">--}}
+                    {{--<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+                        {{--View--}}
+                    {{--</a>--}}
+                    {{--<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">--}}
+                        {{--<a class="dropdown-item {{ isset($onMap) ? "active" : "" }}" href="{{ route('view_map') }}">On map</a>--}}
+                        {{--<a class="dropdown-item {{ isset($onGraph) ? "active" : "" }}" href="{{ route('view_graph') }}">On graph</a>--}}
+                    {{--</div>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item {{ isset($pendingPosts) ? "active" : "" }}">--}}
+                    {{--<a class="nav-link" href="{{ route('pending_posts') }}">Pending Posts</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item {{ isset($myPosts) ? "active" : "" }}">--}}
+                    {{--<a class="nav-link" href="{{ route('my_posts') }}">My posts</a>--}}
+                {{--</li>--}}
+                {{--<li class="nav-item {{ isset($contact) ? "active" : "" }}">--}}
+                    {{--<a class="nav-link" href="{{ route("contact") }}">Contact</a>--}}
+                {{--</li>--}}
             </ul>
         </div>
     </div>

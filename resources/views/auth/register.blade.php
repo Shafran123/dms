@@ -26,10 +26,15 @@
                         </div>
 
                         <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Account Type</label>
+                            <label for="type" class="col-md-4 control-label">Account Type</label>
 
                             <div class="col-md-6">
-                                <input id="type" type="text" class="form-control" name="type" value="{{ old('type') }}" required>
+                                {{--<input id="type" type="text" class="form-control" name="type" value="{{ old('type') }}" required>--}}
+                                <select id="type" class="form-control" name="type" required>
+                                    <option {{ old('type') == 'user' ? 'selected' : '' }}>user</option>
+                                    <option {{ old('type') == 'admin' ? 'selected' : '' }}>admin</option>
+                                    <option {{ old('type') == 'super' ? 'selected' : '' }}>super</option>
+                                </select>
 
                                 @if ($errors->has('type'))
                                     <span class="help-block">

@@ -26,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -42,11 +42,14 @@ class LoginController extends Controller
         $request->session()->put('type', $type);
         $request->session()->put('username', $username);
         $request->session()->put('id', $id);
+//        dd($type);
         if ( $type == 'admin' ) {
             return redirect()->route('admin_home');
+        }else if( $type == 'user' ) {
+            return redirect()->route('user_home');
         }
 
-        return redirect()->route('user_home');
+        return redirect()->route('users');
     }
 
     public function __construct()

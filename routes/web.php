@@ -11,15 +11,41 @@
 |
 */
 
-Auth::routes();
+//Auth::routes();
+
+//Authentication routes
+Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+
+// Password Reset Routes...
+Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm');
+Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::get('/', 'ContentController@publicHome')->name('home');
+Route::get('/home', 'ContentController@publicHome');
+
+// Registration Routes...
+Route::get('/register', 'Auth\RegisterController@showRegistrationForm');
+Route::post('/register', 'Auth\RegisterController@register')->name('register');
+
 Route::middleware('auth')->group(function(){
+
+    Route::group(['middleware' => 'App\Http\Middleware\SuperUserMiddleware'], function()
+    {
+        Route::get('/users', 'UsersController@index')->name('users');//show site users
+        Route::get('/add/user', 'UsersController@create')->name('add_user');//add a new user
+        Route::post('/add/user', 'UsersController@store')->name('save_user');//save user
+        Route::get('/view/user/{id}', 'UsersController@view')->name('view_user');//view user
+        Route::post('/update/user/{id}/{field}', 'UsersController@update')->name('update_user');//view user
+    });
 
     Route::group(['middleware' => 'App\Http\Middleware\AdminMiddleware'], function()
     {
         Route::get('/admin/home', 'ContentController@adminHome')->name('admin_home');//admin home
-        Route::get('/user', 'UserController@index')->name('users');//show site users
         Route::get('/pending/posts', 'PostController@adminIndex')->name('pending_posts');//show pending posts
         Route::get('/approve/post/{id}', 'IncidentController@approvePost')->name('approve_post');//approve post w/o editing
     });

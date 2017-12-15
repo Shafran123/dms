@@ -24,6 +24,8 @@ class ContentController extends Controller
                     return redirect()->route('admin_home');
                 case 'user':
                     return redirect()->route('user_home');
+                case 'super':
+                    return redirect()->route('users');
             }
         }
         $data['posts'] = $this->populatePosts();
