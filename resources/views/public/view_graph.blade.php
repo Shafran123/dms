@@ -95,16 +95,16 @@
                     {{ csrf_field() }}
 
                     <div class="form-group">
-                        <label for="type">Incident Type</label>
-                        <select class="form-control {{ $errors->has('type') ? ' is-invalid' : '' }}" id="type" name="type">
-                            @foreach($types as $type => $icon)
-                                @if($type == old('type'))
-                                    <option value="{{ $type }}" selected>{{ $type }}</option>
-                                @else
-                                    <option value="{{ $type }}">{{ $type }}</option>
-                                @endif
-                            @endforeach
-                        </select>
+                        {{--<label for="type">Incident Type</label>--}}
+                        {{--<select class="form-control {{ $errors->has('type') ? ' is-invalid' : '' }}" id="type" name="type">--}}
+                            {{--@foreach($types as $type => $icon)--}}
+                                {{--@if($type == old('type'))--}}
+                                    {{--<option value="{{ $type }}" selected>{{ $type }}</option>--}}
+                                {{--@else--}}
+                                    {{--<option value="{{ $type }}">{{ $type }}</option>--}}
+                                {{--@endif--}}
+                            {{--@endforeach--}}
+                        {{--</select>--}}
                         <div class="invalid-feedback">
                             {{--{{ $errors->first('type') }}--}}
                         </div>

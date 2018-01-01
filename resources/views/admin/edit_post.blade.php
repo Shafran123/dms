@@ -9,7 +9,7 @@
             <!-- Blog Entries Column -->
             <div class="col-md-12">
 
-                <h1 class="my-4">Edit Post {{$picCount}}
+                <h1 class="my-4">Edit Post
                 </h1>
 
                 <form action="{{ route('edit_post', ['id' => $post['id']]) }}" method="POST" enctype="multipart/form-data">

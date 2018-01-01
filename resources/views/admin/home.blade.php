@@ -28,7 +28,7 @@
                                 <a href="{{ route('view_post', ['id' => $post['id'] ]) }}" class="btn btn-primary float-right">Read More <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
                             </div>
                             <div class="card-footer text-muted">
-                                Posted on {{ date("d M Y", strtotime($post['created_at'])) }} by Start Bootstrap
+                                Posted on {{ date("d M Y", strtotime($post['created_at'])) }}
                             </div>
                         </div>
                     @endforeach
@@ -93,39 +93,39 @@
                 </div>
 
                 <!-- Categories Widget -->
-                <div class="card my-4">
-                    <h5 class="card-header">Categories</h5>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li>
-                                        <a href="#">Web Design</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">HTML</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Freebies</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-6">
-                                <ul class="list-unstyled mb-0">
-                                    <li>
-                                        <a href="#">JavaScript</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">CSS</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Tutorials</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {{--<div class="card my-4">--}}
+                    {{--<h5 class="card-header">Categories</h5>--}}
+                    {{--<div class="card-body">--}}
+                        {{--<div class="row">--}}
+                            {{--<div class="col-lg-6">--}}
+                                {{--<ul class="list-unstyled mb-0">--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">Web Design</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">HTML</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">Freebies</a>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-lg-6">--}}
+                                {{--<ul class="list-unstyled mb-0">--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">JavaScript</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">CSS</a>--}}
+                                    {{--</li>--}}
+                                    {{--<li>--}}
+                                        {{--<a href="#">Tutorials</a>--}}
+                                    {{--</li>--}}
+                                {{--</ul>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="card my-4">
                     <h5 class="card-header">Site Messages</h5>

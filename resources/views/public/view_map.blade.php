@@ -103,7 +103,7 @@
                     @foreach($incidents as $incident)
 
                         details.push(
-                            [new google.maps.LatLng({{ $incident['latitude'].','. $incident['longitude']}}), '<a href="{{ route('view_post', ['id' => $incident['id']]) }}" target="_blank">{{ $incident['title'] }}</a>', '{{ $incident['type_icon'] }}']
+                            [new google.maps.LatLng({{ $incident['latitude'].','. $incident['longitude']}}), '<h1>{{ $incident['title'] }}</h1><a href="{{ route('view_post', ['id' => $incident['id']]) }}" target="_blank" class="float-right">Read More</a>', '{{ $incident['type_icon'] }}']
                         );
 
                     @endforeach

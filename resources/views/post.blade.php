@@ -93,6 +93,7 @@
                 <hr>
 
                 <div style="margin-bottom: 50px;">
+                    <p><strong>Incident occurred on: </strong>{{ isset($post['date']) ? date("d M Y", strtotime($post['date'])) : "site error" }}</p>
                 <!-- Post Content -->
 {{--                    {{ isset($post['description']) ? nl2br(e($post['description'])) : "site error" }}--}}
                     {{--{!! nl2br(e($post['description']))!!}--}}

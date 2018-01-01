@@ -63,7 +63,7 @@
         <div class="row" style=" height: 100%;">
 
             <!-- Blog Entries Column -->
-            <div class="col-md-12" style="border: 1px solid red;  height: 100%;">
+            <div class="col-md-12" style="border: 0px solid red;  height: 100%;">
                 @if(isset($cities) && isset($district))
                     <h1>{{ $district }}<small> District</small></h1>
 

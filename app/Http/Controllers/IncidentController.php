@@ -359,7 +359,7 @@ class IncidentController
 //        dd(session('id'));
         $user = $this->user->find(session('id'));
 
-        $incidents = $user->incident()->where('user_id', session('id'))->get();
+        $incidents = $user->incident()->where('user_id', session('id'))->orderByRaw('id DESC')->get();
 
         $incidents = $incidents->toArray();
 
