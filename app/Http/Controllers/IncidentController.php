@@ -15,7 +15,9 @@ use App\Type;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 
 class IncidentController
 {
@@ -131,19 +133,6 @@ class IncidentController
             }
             return redirect('/');
         }
-
-
-//        dd($user->id);
-//        $incident->insert(
-//            [
-//                'type' => 'Accident',
-//                'date' => '2017-11-27',
-//                'description' => 'It was an Accident',
-//                'latitude' => 6.870039,
-//                'longitude' => 79.879729,
-//                'city' => 'Kohuwala'
-//            ]
-//        );
     }//add post
 
 
@@ -176,7 +165,19 @@ class IncidentController
         if($data['post'] != null)
         {
             $data['post'] = $data['post']->toArray();
-                return view('admin.edit_post', $data);
+            if($data['post']['user_id'] != session('id') && session('type') != 'admin')
+            {
+                return redirect()->route('error_page', ['code' => 403]);
+            }
+            else if($data['post']['user_id'] == session('id') && $data['post']['status'] == 'approved' && session('type') != 'admin')
+            {
+                return redirect()->route('error_page', ['code' => 403]);
+            }
+            $picture = $this->picture;
+            $data['pictures'] = $picture->where('incident_id', $id)->get();
+            $data['picCount'] = count($data['pictures']);
+
+            return view('admin.edit_post', $data);
 //            if($data['post']['status'] == 'pending')
 //            dd('error: post already approved'); //post already approved
         }
@@ -312,7 +313,7 @@ class IncidentController
                 $data['firstPic'] = 0;
         } else
         {
-            dd('no post');
+            return redirect()->route('error_page', ['code' => 404]);
         }
 
         return view('post', $data);
@@ -376,16 +377,30 @@ class IncidentController
     public function deletePost($id)
     {
         $incident = $this->incident;
+        $pictures = $this->picture->where('incident_id', $id)->get();
+        if(count($pictures) > 0)
+        {
+            foreach ($pictures as $picture)
+            {
+                File::delete('images/'.$picture->original_filename);
+            }
+        }
         $incident->find($id)->delete();
         return redirect()->route('my_posts');
     }
 
 
 
-    public function approvePost($id)
+    public function approvePost(Request $request, $id)
     {
+        $request->validate(
+            [
+                'threat_level' => 'required|numeric|min:1|max:10',
+            ]
+        );
         $incident = $this->incident->find($id);
         $incident->status = 'approved';
+        $incident->threat_level = $request['threat_level'];
         $incident->save();
         return redirect()->route('pending_posts');
     }//approve post

@@ -2,22 +2,14 @@
 
 @section('content')
 
-    <nav aria-label="breadcrumb" role="navigation" style="margin-top: 50px;">
-        <ol class="breadcrumb bg-light">
-            {{--<li class="breadcrumb-item"><a href="#">Home</a></li>--}}
-            <li class="breadcrumb-item"><a href="#">Pending Posts</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Edit Post</li>
-        </ol>
-    </nav>
-
-    <div class="container" style="margin-top: -30px; margin-bottom: 50px;">
+    <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
 
         <div class="row">
 
             <!-- Blog Entries Column -->
             <div class="col-md-12">
 
-                <h1 class="my-4">Edit Post
+                <h1 class="my-4">Edit Post {{$picCount}}
                 </h1>
 
                 <form action="{{ route('edit_post', ['id' => $post['id']]) }}" method="POST" enctype="multipart/form-data">
@@ -74,9 +66,9 @@
                         <label for="description">Description</label>
 
                         @if($errors->has('title') || $errors->has('date') || $errors->has('type') || $errors->has('description') || $errors->has('pac-input'))
-                            <textarea class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description" rows="5" required>{{ old('description') }}</textarea>
+                            <textarea class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description" rows="10" required>{{ old('description') }}</textarea>
                         @else
-                            <textarea class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description" rows="5" required>{{ $post['description'] }}</textarea>
+                            <textarea class="form-control {{ $errors->has('description') ? ' is-invalid' : '' }}" id="description" name="description" rows="10" required>{{ $post['description'] }}</textarea>
                         @endif
 
                         <div class="invalid-feedback">
@@ -87,12 +79,36 @@
                     @if($user_type == 'admin')
                         <div class="form-group">
                             <label for="threat_level">Assign Threat Level</label>
-                            <input type="number" name="threat_level" id="threat_level" value="1" class="form-control col-sm-3" min="1" max="10" required>
+
+                            @if($errors->has('title') || $errors->has('date') || $errors->has('type') || $errors->has('description') || $errors->has('pac-input'))
+                                <input type="number" name="threat_level" id="threat_level" value="{{ old('threat_level') }}" class="form-control col-sm-3" min="1" max="10" required>
+                            @else
+                                <input type="number" name="threat_level" id="threat_level" value="{{ $post['threat_level'] }}" class="form-control col-sm-3" min="1" max="10" required>
+                            @endif
+
+
                             <div class="invalid-feedback">
                                 {{ $errors->first('threat_level') }}
                             </div>
                         </div>
                     @endif
+
+
+                    <div class="form-group">
+                        @if(isset($picCount) && $picCount > 0)
+                            <h5>Post Images ({{ $picCount }})</h5>
+                            @foreach($pictures as $picture)
+                                <div class="d-inline-block" style="width: 20rem;">
+                                    <img class="card-img-top" src="{{ asset("images/".$picture['original_filename']) }}" alt="Card image cap">
+                                    <div class="card-body">
+                                        <a href="{{ route('delete_picture', ['id' => $picture['id']] ) }}" class="btn btn-danger float-right" style="margin-bottom: 15px">Delete</a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <span style="color: red; font-weight: bolder;">No images uploaded for this post</span>
+                        @endif
+                    </div>
 
                     <div class="form-group">
                         <label for="images">Add More Pictures (if needed)</label>
@@ -101,12 +117,6 @@
                             {{ $errors->first('images') }}
                         </div>
                     </div>
-
-
-                    <div class="form-group">
-                        <a href="#" class="btn btn-primary btn-lg" target="_blank" role="button" aria-pressed="true">Edit Pictures</a>
-                    </div>
-
 
                     <div class="form-group">
                         <label for="city">Select City/Town</label>

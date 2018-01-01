@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function(){
     {
         Route::get('/admin/home', 'ContentController@adminHome')->name('admin_home');//admin home
         Route::get('/pending/posts', 'PostController@adminIndex')->name('pending_posts');//show pending posts
-        Route::get('/approve/post/{id}', 'IncidentController@approvePost')->name('approve_post');//approve post w/o editing
+        Route::post('/approve/post/{id}', 'IncidentController@approvePost')->name('approve_post');//approve post w/o editing
     });
 
     Route::group(['middleware' => 'App\Http\Middleware\UserMiddleware'], function()
@@ -56,12 +56,15 @@ Route::middleware('auth')->group(function(){
     });
 
 
+
     Route::get('/add/post', 'IncidentController@index')->name('add_post_index');//show add post form
     Route::post('/add/post', 'IncidentController@addPost')->name('add_post');//add post
 
     Route::get('/edit/post/{id}', 'IncidentController@edit')->name('edit_post_form');//show edit post form
     Route::post('/edit/post/{id}', 'IncidentController@editPost')->name('edit_post');//edit post and approve post
     Route::get('/edit/post/{id}/pictures', 'PostController@editPictureIndex')->name('edit_picture_form');
+
+    Route::get('delete/picture/{id}', 'PictureController@deletePicture')->name('delete_picture');
 
     Route::get('/posts/me', 'IncidentController@viewMyPosts')->name('my_posts');//show user/admin posts
 
@@ -79,6 +82,7 @@ Route::get('filter/{district}', 'GraphController@sortByDistrict')->name('sort_di
 Route::get('filter/{district}/{start_date}/{end_date}', 'GraphController@sortByDistrictAndDates')->name('sort_district');
 
 
+Route::get('/error/{code}', 'ContentController@errorPage')->name('error_page');//show error page
 //Route::get('new/post', 'IncidentController@addPost');
 
 //Route::get('/home', 'HomeController@index')->name('home');//<- fix THIS

@@ -24,10 +24,24 @@
                 @if(isset($user_type) && $user_type == 'admin')
                     <div class="d-inline-block float-right">
                         @if($post['status'] == 'pending')
-                            <a href="{{ route('approve_post', ['id' => $post['id']]) }}" class="btn btn-success btn-sm" role="button" aria-pressed="true">Approve</a>
+                            {{--<span style="color: red;"><i class="fa fa-exclamation-circle" aria-hidden="true"></i><small> Clicking approve will approve this post with a threat level of 1</small></span>--}}
+                            {{--<a href="{{ route('approve_post', ['id' => $post['id']]) }}" class="btn btn-success btn-sm" role="button" aria-pressed="true">Approve</a>--}}
+                            <div class="d-inline-block">
+                                <form class="form-inline" method="post" action="{{ route('approve_post', ['id' => $post['id']]) }}">
+                                    {{ csrf_field() }}
+                                    <div class="form-group mx-sm-3">
+                                        <span style="color: red"><small>{{ $errors->first('threat_level') }}</small></span>
+                                        <label for="threat_level" class="sr-only">Password</label>
+                                        <input type="number" class="form-control {{ $errors->has('threat_level') ? ' is-invalid' : '' }}" id="threat_level" name="threat_level" placeholder="Threat Level">
+                                    </div>
+                                    <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                                </form>
+                            </div>
                         @endif
-                            <a href="{{ route('edit_post_form', [ 'id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
-                            <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
+                            <div class="d-inline-block">
+                                <a href="{{ route('edit_post_form', [ 'id' => $post['id'] ]) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">Edit</a>
+                                <a href="{{ route('delete_post', ['id' => $post['id']]) }}" class="btn btn-danger btn-sm" role="button" aria-pressed="true">Delete</a>
+                            </div>
                     </div>
 
                 @elseif(isset($user_type) && $user_type == 'user' && $post['user_id'] == session('id'))

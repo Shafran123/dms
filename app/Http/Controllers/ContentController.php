@@ -103,4 +103,23 @@ class ContentController extends Controller
     public function getUserType(){
         return session('type');
     }
+
+    public function errorPage($code)
+    {
+        $message = '';
+        $title = '';
+        switch ($code){
+            case 403:
+                $message = 'You do not have permission to access this page';
+                $title = '403';
+                break;
+            case 404:
+                $message = 'Post not found';
+                $title = '404';
+                break;
+            case 501:
+                break;
+        }
+        return view('error_page', ['message' => $message, 'title' => $title]);
+    }
 }
